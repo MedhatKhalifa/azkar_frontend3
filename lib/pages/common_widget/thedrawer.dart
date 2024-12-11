@@ -49,13 +49,13 @@ class AppDrawer extends StatelessWidget {
               Get.to(() => const CalendarScreen());
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.mosque),
-            title: Text('azan'.tr),
-            onTap: () {
-              // Get.to(const PrayerTimesPage());
-            },
-          ),
+          // ListTile(
+          //   leading: const Icon(Icons.mosque),
+          //   title: Text('azan'.tr),
+          //   onTap: () {
+          //     // Get.to(const PrayerTimesPage());
+          //   },
+          // ),
           ListTile(
             leading: const Icon(Icons.search),
             title: Text('search'.tr),
