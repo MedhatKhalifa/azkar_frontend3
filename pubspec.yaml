@@ -1,0 +1,76 @@
+name: azakar
+description: "A new Flutter project."
+
+# Prevent accidental publishing to pub.dev
+publish_to: 'none'
+
+# Versioning
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+# Dependencies
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  get: ^4.6.6
+  http: ^1.2.2
+  dio: ^5.7.0
+  shared_preferences: ^2.3.3
+  animated_splash_screen: ^1.3.0
+  timezone: ^0.10.0
+  intl: 0.19.0
+  cupertino_icons: ^1.0.8
+  sqflite: ^2.4.1
+  path_provider: ^2.0.10
+  table_calendar: ^3.0.2
+  adhan: ^2.0.0
+
+# Dev Dependencies
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.11.0 # Added for managing app icons
+
+# Flutter launcher icons configuration
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/azkar_icon.png"
+
+# Flutter configuration
+flutter:
+  uses-material-design: true
+
+  # Assets
+  assets:
+    - assets/images/intro/
+    - assets/images/intro/sub/ar/
+    - assets/images/logo/
+    - assets/images/translate/
+    - assets/images/
+    - assets/icons/
+    - assets/fonts/
+    - assets/
+
+  # Fonts
+  fonts:
+    - family: myarabic
+      fonts:
+        - asset: assets/fonts/Tajawal/Tajawal-Black.ttf
+        - asset: assets/fonts/Tajawal/Tajawal-Bold.ttf
+        - asset: assets/fonts/Tajawal/Tajawal-ExtraBold.ttf
+        - asset: assets/fonts/Tajawal/Tajawal-ExtraLight.ttf
+        - asset: assets/fonts/Tajawal/Tajawal-Light.ttf
+        - asset: assets/fonts/Tajawal/Tajawal-Medium.ttf
+        - asset: assets/fonts/Tajawal/Tajawal-Regular.ttf
+    - family: sebhafont
+      fonts:
+        - asset: assets/fonts/Reem_Kufi/ReemKufi-Regular.ttf
+    - family: AmiriQuran
+      fonts:
+        - asset: assets/fonts/AmiriQuran-Regular.ttf
