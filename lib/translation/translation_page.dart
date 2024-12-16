@@ -35,7 +35,7 @@ class _TrnaslationPageState extends State {
               SizedBox(height: h(20)),
               SizedBox(
                 height: h(50),
-                child: Image.asset("assets/images/logo/logo_trans.png"),
+                child: Image.asset("assets/icons/azkar_icon.png"),
               ),
               // Container(
               //   width: w(40),

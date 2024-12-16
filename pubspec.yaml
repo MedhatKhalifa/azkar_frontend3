@@ -49,7 +49,6 @@ flutter:
   # Assets
   assets:
     - assets/images/intro/
-    - assets/images/intro/sub/ar/
     - assets/images/logo/
     - assets/images/translate/
     - assets/images/

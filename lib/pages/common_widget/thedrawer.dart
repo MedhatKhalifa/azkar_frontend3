@@ -1,3 +1,4 @@
+import 'package:azakar/pages/sebha/sebha_homePage.dart';
 import 'package:azakar/pages/subCategory.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,7 @@ import 'package:azakar/pages/actions/historyActions.dart';
 import 'package:azakar/translation/translation_page.dart';
 import '../actions/viewTodayActions.dart';
 import '../azkar_search.dart';
+import '../sebha/sebha_tasbihList.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -49,13 +51,13 @@ class AppDrawer extends StatelessWidget {
               Get.to(() => const CalendarScreen());
             },
           ),
-          // ListTile(
-          //   leading: const Icon(Icons.mosque),
-          //   title: Text('azan'.tr),
-          //   onTap: () {
-          //     // Get.to(const PrayerTimesPage());
-          //   },
-          // ),
+          ListTile(
+            leading: const Icon(Icons.safety_check),
+            title: Text('sebha'.tr),
+            onTap: () {
+              Get.to(TasbihListPage());
+            },
+          ),
           ListTile(
             leading: const Icon(Icons.search),
             title: Text('search'.tr),

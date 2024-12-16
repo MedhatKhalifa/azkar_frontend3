@@ -9,6 +9,7 @@ import 'package:azakar/pages/subCategory.dart';
 import '../../core/size_config.dart';
 import '../controllers/azkar_controller.dart';
 import '../translation/translation_page.dart';
+import 'sebha/sebha_controller.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,6 +21,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   //final HomePageController homePageController = Get.put(HomePageController());
   final AzkarController azkarController = Get.put(AzkarController());
+  final SebhaController controller = Get.put(SebhaController());
+
   String? mytoken;
 
   @override
@@ -123,6 +126,7 @@ class _SplashScreenState extends State<SplashScreen> {
           try {
             azkarController.selectedLanguage.value = lang!;
             azkarController.getAzkarList();
+            controller.fetchAzkar();
 
             // homePageController.getHomePageData();
             // currentUserController.currentUser.value =
