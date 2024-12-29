@@ -15,7 +15,7 @@ const Map<String, String> en = {
   "waiting_remote": "Waiting for a remote user to join",
   "change_after_30_min":
       "The updated date must be at least 30 minutes later than the current time.",
-  "app_name": "Wazker",
+  "app_name": "Our Azkar",
   "azkar": "Azkar",
   "today_action_list": "Today Action List",
   "history_checklist": "History Checklist",
@@ -31,5 +31,14 @@ const Map<String, String> en = {
   "error": "Error",
   "enter_search_term": "Please enter a search term.",
   'pregress_reset': 'Progress Reset',
-  'azkar_reset': 'All Azkar have been restored.'
+  'azkar_reset': 'All Azkar have been restored.',
+  'tasbih': 'Tasbih',
+  'select_tasbih': 'Select Tasbih',
+  "current": "Current",
+  "cumulative": "Cumulative",
+  "reset": "Reset",
+  "warning": "Warning",
+  "confirm_reset": "Are you sure you want to reset the current count?",
+  "cancel": "Cancel",
+  "yes": "Yes",
 };

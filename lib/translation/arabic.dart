@@ -15,10 +15,10 @@ const Map<String, String> ar = {
   "waiting_remote": "في انتظار انضمام المستخدم البعيد",
   "change_after_30_min":
       "يجب أن يكون التاريخ المحدد بعد الآن بـ 30 دقيقة على الأقل",
-  "app_name": "وذكر",
+  "app_name": "اذكارنا",
   "azkar": "الأذكار",
-  "today_action_list": "قائمة الأعمال اليوم",
-  "history_checklist": "قائمة الأعمال السابقة",
+  "today_action_list": "ورد اليوم",
+  "history_checklist": " الأوراد السابقة",
   "azan": "الأذان",
   "search": "بحث",
   "change_language": "تغيير اللغة",
@@ -31,5 +31,16 @@ const Map<String, String> ar = {
   "error": "خطأ",
   "enter_search_term": "يرجى إدخال كلمة للبحث.",
   'pregress_reset': 'إعادة الإعدادات',
-  'azkar_reset': 'تمت إعادة جميع الأذكار والمحذوفات إلى حالتها الأصلية.'
+  'azkar_reset': 'تمت إعادة جميع الأذكار والمحذوفات إلى حالتها الأصلية.',
+  'tasbih': 'تسبيح',
+  'select_tasbih': 'أختار التسبيح',
+  "current": "الحالي",
+  "cumulative": "التراكمي",
+  "reset": "إعادة تعيين",
+  "warning": "تحذير",
+  "confirm_reset": "هل أنت متأكد أنك تريد إعادة تعيين العدد الحالي؟",
+  "cancel": "إلغاء",
+  "yes": "نعم",
+  'save': 'حفظ',
+  'save_done': 'تم التسجيل بنجاح'
 };

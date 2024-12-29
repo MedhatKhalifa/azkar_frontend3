@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
 import 'actions_predefine.dart';
 import 'database_helper.dart';
 
@@ -19,14 +19,34 @@ class _LargeFormScreenState extends State<LargeFormScreen> {
   late String dayName;
   final List<Map<String, dynamic>> categories = predefinedActions;
   final Map<String, TextEditingController> _controllers = {};
+  final Map<String, bool> _doneStates = {}; // Map to store "done" states
 
   @override
   void initState() {
     super.initState();
+    _initializeScreenState();
+  }
+
+  void _initializeScreenState() {
     formattedDate = DateFormat('yyyy-MM-dd').format(widget.selectedDate);
     dayName = DateFormat('EEEE', 'ar').format(widget.selectedDate);
+    _clearState(); // Clear old state
     _initializeControllers();
     _loadFormData();
+  }
+
+  @override
+  void didUpdateWidget(covariant LargeFormScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selectedDate != oldWidget.selectedDate) {
+      _initializeScreenState(); // Reinitialize for new date
+      setState(() {}); // Trigger rebuild
+    }
+  }
+
+  void _clearState() {
+    _controllers.clear(); // Clear controllers
+    _doneStates.clear(); // Clear done states
   }
 
   void _initializeControllers() {
@@ -34,6 +54,7 @@ class _LargeFormScreenState extends State<LargeFormScreen> {
       for (var subcategory in category["subcategories"]) {
         String key = '${category["category"]}_${subcategory["name"]}';
         _controllers[key] = TextEditingController();
+        _doneStates[key] = false; // Initialize done state to false
       }
     }
   }
@@ -41,7 +62,10 @@ class _LargeFormScreenState extends State<LargeFormScreen> {
   Future<void> _loadFormData() async {
     final data = await DBHelper.instance.fetchFormData(formattedDate);
 
-    print('Fetched data for $formattedDate: $data');
+    // Reset done states to default (false) before applying fetched data
+    for (var key in _doneStates.keys) {
+      _doneStates[key] = false;
+    }
 
     for (var entry in data) {
       final categoryName = entry['category'];
@@ -51,15 +75,11 @@ class _LargeFormScreenState extends State<LargeFormScreen> {
 
       String key = '${categoryName}_$subcategoryName';
 
-      for (var category in categories) {
-        if (category['category'] == categoryName) {
-          for (var subcategory in category['subcategories']) {
-            if (subcategory['name'] == subcategoryName) {
-              subcategory['done'] = done;
-              _controllers[key]?.text = comment; // Apply the comment
-            }
-          }
-        }
+      if (_controllers.containsKey(key)) {
+        _controllers[key]?.text = comment; // Apply comment to controller
+      }
+      if (_doneStates.containsKey(key)) {
+        _doneStates[key] = done; // Update done state
       }
     }
 
@@ -73,12 +93,10 @@ class _LargeFormScreenState extends State<LargeFormScreen> {
         final entry = {
           "category": category["category"],
           "subcategory": subcategory["name"],
-          "done": subcategory["done"] ? 1 : 0,
+          "done": _doneStates[key]! ? 1 : 0,
           "comment": _controllers[key]?.text ?? "",
           "date": formattedDate,
         };
-
-        print('Saving entry: $entry');
 
         await DBHelper.instance.updateFormEntry(entry).then((rowsAffected) {
           if (rowsAffected == 0) {
@@ -89,7 +107,7 @@ class _LargeFormScreenState extends State<LargeFormScreen> {
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Form saved successfully!')),
+      SnackBar(content: Text('save_done'.tr)),
     );
   }
 
@@ -118,9 +136,10 @@ class _LargeFormScreenState extends State<LargeFormScreen> {
                   title: Text(
                     category["category"],
                     style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueAccent),
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueAccent,
+                    ),
                   ),
                   children:
                       category["subcategories"].map<Widget>((subcategory) {
@@ -140,10 +159,10 @@ class _LargeFormScreenState extends State<LargeFormScreen> {
                             ),
                           ),
                           Checkbox(
-                            value: subcategory["done"],
+                            value: _doneStates[key],
                             onChanged: (value) {
                               setState(() {
-                                subcategory["done"] = value!;
+                                _doneStates[key] = value!;
                               });
                             },
                           ),
@@ -152,10 +171,10 @@ class _LargeFormScreenState extends State<LargeFormScreen> {
                     );
                   }).toList(),
                 );
-              }),
+              }).toList(),
               ElevatedButton(
                 onPressed: _saveForm,
-                child: const Text('Save Form'),
+                child: Text('save'.tr),
               ),
             ],
           ),

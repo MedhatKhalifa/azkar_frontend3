@@ -45,7 +45,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           TableCalendar(
             focusedDay: _focusedDate,
             firstDay: DateTime(2020),
-            lastDay: DateTime(2100),
+            lastDay: DateTime.now(),
             selectedDayPredicate: (day) {
               return isSameDay(_selectedDate, day);
             },

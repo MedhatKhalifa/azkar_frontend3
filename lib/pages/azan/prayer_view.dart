@@ -1,69 +1,141 @@
-import 'package:adhan/adhan.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:adhan_dart/adhan_dart.dart';
+import 'package:intl/intl.dart'; // Add intl package to pubspec.yaml
 
 class PrayerTimesScreen extends StatefulWidget {
-  const PrayerTimesScreen({super.key});
-
   @override
   _PrayerTimesScreenState createState() => _PrayerTimesScreenState();
 }
 
 class _PrayerTimesScreenState extends State<PrayerTimesScreen> {
-  List<String> prayerTimesList = [];
+  Map<String, DateTime> prayerTimes = {};
+  String? errorMessage;
 
   @override
   void initState() {
     super.initState();
-    _getPrayerTimes();
+    fetchPrayerTimes();
   }
 
-  void _getPrayerTimes() async {
-    // Replace with your own coordinates
-    final coordinates = Coordinates(23.9088, 89.1220);
-    final params = CalculationMethod.karachi.getParameters();
-    params.madhab = Madhab.hanafi;
+  Future<void> fetchPrayerTimes() async {
+    try {
+      // Initialize time zones
+      tz.initializeTimeZones();
+      final location = tz.getLocation('Africa/Cairo'); // Cairo timezone
 
-    // Get today's prayer times
-    final prayerTimes = PrayerTimes.today(coordinates, params);
+      // Hardcoded coordinates for testing
+      Coordinates coordinates = Coordinates(30.014907, 30.970081);
 
-    // Format the prayer times and update the UI
-    setState(() {
-      prayerTimesList = [
-        DateFormat.jm().format(prayerTimes.fajr),
-        DateFormat.jm().format(prayerTimes.sunrise),
-        DateFormat.jm().format(prayerTimes.dhuhr),
-        DateFormat.jm().format(prayerTimes.asr),
-        DateFormat.jm().format(prayerTimes.maghrib),
-        DateFormat.jm().format(prayerTimes.isha),
-      ];
-    });
+      // Current date in the specified location
+      DateTime date = tz.TZDateTime.from(DateTime.now(), location);
+
+      // Calculation parameters
+      CalculationParameters params = CalculationMethod.egyptian();
+      params.madhab = Madhab.shafi;
+      params.adjustments = {
+        'fajr': 120,
+        'sunrise': 120,
+        'dhuhr': 120,
+        'asr': 120,
+        'maghrib': 120,
+        'isha': 120,
+      };
+
+      // Calculate prayer times
+      PrayerTimes prayerTimesData = PrayerTimes(
+        coordinates: coordinates,
+        date: date,
+        calculationParameters: params,
+        precision: true,
+      );
+
+      // Set state to update UI
+      setState(() {
+        prayerTimes = {
+          'Fajr': tz.TZDateTime.from(prayerTimesData.fajr!, location),
+          'Sunrise': tz.TZDateTime.from(prayerTimesData.sunrise!, location),
+          'Dhuhr': tz.TZDateTime.from(prayerTimesData.dhuhr!, location),
+          'Asr': tz.TZDateTime.from(prayerTimesData.asr!, location),
+          'Maghrib': tz.TZDateTime.from(prayerTimesData.maghrib!, location),
+          'Isha': tz.TZDateTime.from(prayerTimesData.isha!, location),
+        };
+        errorMessage = null;
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = e.toString();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Prayer Times')),
-      body: prayerTimesList.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: prayerTimesList.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(prayerNames[index]),
-                  subtitle: Text(prayerTimesList[index]),
-                );
-              },
-            ),
+      appBar: AppBar(
+        title: Text('Prayer Times'),
+        centerTitle: true,
+      ),
+      body: RefreshIndicator(
+        onRefresh: fetchPrayerTimes,
+        child: errorMessage != null
+            ? Center(
+                child: Text(
+                  'Error: $errorMessage',
+                  style: TextStyle(color: Colors.red, fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            : prayerTimes.isEmpty
+                ? Center(child: CircularProgressIndicator())
+                : ListView(
+                    padding: EdgeInsets.all(10),
+                    children: prayerTimes.entries
+                        .map((entry) => Card(
+                              elevation: 4,
+                              margin: EdgeInsets.symmetric(vertical: 8),
+                              child: ListTile(
+                                leading: Icon(
+                                  _getIconForPrayer(entry.key),
+                                  color: Colors.blueAccent,
+                                  size: 30,
+                                ),
+                                title: Text(
+                                  entry.key,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  DateFormat.jm().format(entry.value.toLocal()),
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ))
+                        .toList(),
+                  ),
+      ),
     );
   }
 
-  final List<String> prayerNames = [
-    'Fajr',
-    'Sunrise',
-    'Dhuhr',
-    'Asr',
-    'Maghrib',
-    'Isha'
-  ];
+  IconData _getIconForPrayer(String prayer) {
+    switch (prayer) {
+      case 'Fajr':
+        return Icons.brightness_5; // Sunrise icon
+      case 'Sunrise':
+        return Icons.wb_sunny; // Sun icon
+      case 'Dhuhr':
+        return Icons.wb_cloudy; // Noon icon
+      case 'Asr':
+        return Icons.filter_drama; // Afternoon icon
+      case 'Maghrib':
+        return Icons.nights_stay; // Sunset icon
+      case 'Isha':
+        return Icons.brightness_3; // Night icon
+      default:
+        return Icons.access_time; // Default icon
+    }
+  }
 }

@@ -11,11 +11,20 @@ class SebhaController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // fetchAzkar();
+    fetchAzkar(); // Fetch Azkar on initialization
   }
 
   void fetchAzkar() async {
-    azkar.value = await _dbHelper.fetchAllAzkar();
+    // Fetch azkar from the database
+    final fetchedAzkar = await _dbHelper.fetchAllAzkar();
+
+    // Create a mutable copy and sort it
+    final sortedAzkar = List<Map<String, dynamic>>.from(fetchedAzkar)
+      ..sort(
+          (a, b) => b['accumulativeCount'].compareTo(a['accumulativeCount']));
+
+    // Update the reactive azkar list
+    azkar.value = sortedAzkar;
   }
 
   void selectZekr(Map<String, dynamic> zekr) {

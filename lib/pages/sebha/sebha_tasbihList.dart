@@ -34,7 +34,7 @@ class _TasbihListPageState extends State<TasbihListPage> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 22, 43, 22),
         title: Text(
-          'Select Tasbih',
+          'select_tasbih'.tr,
           style: const TextStyle(
             fontFamily: 'sebhafont',
             fontSize: 24,
@@ -116,10 +116,10 @@ class _TasbihListPageState extends State<TasbihListPage> {
                         )
                       : null,
                   trailing: Text(
-                    'count ${zekr['accumulativeCount']},',
+                    'التراكمي ${zekr['accumulativeCount']}',
                     style: TextStyle(
                       fontFamily: 'myarabic',
-                      fontSize: 16,
+                      fontSize: 12,
                       color: Colors.grey[300],
                     ),
                   ),

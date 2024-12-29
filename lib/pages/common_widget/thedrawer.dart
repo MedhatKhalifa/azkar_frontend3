@@ -1,6 +1,8 @@
+import 'package:azakar/pages/azan/prayer_view.dart';
 import 'package:azakar/pages/sebha/sebha_homePage.dart';
 import 'package:azakar/pages/subCategory.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:get/get.dart';
 import 'package:azakar/pages/actions/historyActions.dart';
 import 'package:azakar/translation/translation_page.dart';
@@ -18,16 +20,37 @@ class AppDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(color: Colors.teal),
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 55, 98, 55),
+            ),
             child: Center(
               child: Text(
                 'app_name'.tr,
-                style: TextStyle(color: Colors.white, fontSize: 24),
+                style: const TextStyle(
+                  fontFamily: 'sebhafont',
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFFDAA520),
+                ),
               ),
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.book),
+            leading: const Icon(FlutterIslamicIcons.tasbih2),
+            title: Text('tasbih'.tr),
+            onTap: () {
+              Get.to(TasbihListPage());
+            },
+          ),
+          ListTile(
+            leading: const Icon(FlutterIslamicIcons.prayingPerson),
+            title: Text('azan'.tr),
+            onTap: () {
+              Get.to(PrayerTimesScreen());
+            },
+          ),
+          ListTile(
+            leading: const Icon(FlutterIslamicIcons.prayer),
             title: Text('azkar'.tr),
             onTap: () {
               Get.to(() => const SubCategoryPage());
@@ -45,19 +68,13 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.task_alt),
+            leading: const Icon(FlutterIslamicIcons.calendar),
             title: Text('history_checklist'.tr),
             onTap: () {
               Get.to(() => const CalendarScreen());
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.safety_check),
-            title: Text('sebha'.tr),
-            onTap: () {
-              Get.to(TasbihListPage());
-            },
-          ),
+
           ListTile(
             leading: const Icon(Icons.search),
             title: Text('search'.tr),

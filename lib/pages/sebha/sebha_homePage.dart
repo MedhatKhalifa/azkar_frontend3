@@ -52,11 +52,11 @@ class SebhaHomePage extends StatelessWidget {
                       },
                     ),
                     // Title
-                    const Expanded(
+                    Expanded(
                       child: Center(
                         child: Text(
-                          'سبحة',
-                          style: TextStyle(
+                          'tasbih'.tr, // Localized title
+                          style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -121,7 +121,7 @@ class SebhaHomePage extends StatelessWidget {
                                   );
                                 },
                               ),
-                              const SizedBox(height: 20),
+
                               const SizedBox(height: 20),
 
                               // Image Button with Animation
@@ -134,7 +134,7 @@ class SebhaHomePage extends StatelessWidget {
 
                               // Counts below the image
                               Text(
-                                'الحالي: ${controller.currentCount.value}',
+                                '${'current'.tr}: ${controller.currentCount.value}',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 24,
@@ -143,7 +143,7 @@ class SebhaHomePage extends StatelessWidget {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'التراكمي: ${controller.selectedZekr.value!['accumulativeCount']}',
+                                '${'cumulative'.tr}: ${controller.selectedZekr.value!['accumulativeCount']}',
                                 style: const TextStyle(
                                   color: Colors.white70,
                                   fontSize: 18,
@@ -167,9 +167,9 @@ class SebhaHomePage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 8, horizontal: 12), // Smaller size
                           ),
-                          child: const Text(
-                            'إعادة تعيين',
-                            style: TextStyle(
+                          child: Text(
+                            'reset'.tr,
+                            style: const TextStyle(
                               fontSize: 14, // Smaller font size
                               color: Colors.white,
                             ),
@@ -189,10 +189,10 @@ class SebhaHomePage extends StatelessWidget {
 
   void _showResetWarning(BuildContext context) {
     Get.defaultDialog(
-      title: 'تحذير',
-      middleText: 'هل أنت متأكد أنك تريد إعادة تعيين العدد الحالي؟',
-      textCancel: 'إلغاء',
-      textConfirm: 'نعم',
+      title: 'warning'.tr,
+      middleText: 'confirm_reset'.tr,
+      textCancel: 'cancel'.tr,
+      textConfirm: 'yes'.tr,
       confirmTextColor: Colors.white,
       onConfirm: () {
         Get.back(); // Close the dialog
